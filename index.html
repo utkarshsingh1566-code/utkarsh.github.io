@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Hustle Hub</title>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+  <style>
+    body { font-family: Arial; margin:0; background:#f5f5f5; }
+    header { background:#111; color:white; padding:15px; text-align:center; }
+    nav { background:#333; padding:10px; text-align:center; }
+    nav a { color:white; margin:10px; text-decoration:none; cursor:pointer; }
+    section { padding:20px; }
+    .card {
+      background:white;
+      padding:15px;
+      margin:15px;
+      border-radius:10px;
+      box-shadow:0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      padding:10px;
+      margin:5px;
+      width:200px;
+    }
+    button {
+      padding:10px 15px;
+      background:#28a745;
+      color:white;
+      border:none;
+      border-radius:5px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Student Hustle Hub 🚀</h1>
+</header>
+
+<nav>
+  <a onclick="showSection('home')">Home</a>
+  <a onclick="showSection('premium')">Premium</a>
+  <a onclick="showSection('auth')">Login/Signup</a>
+</nav>
+
+<section id="home">
+  <div class="card">
+    <h2>Welcome</h2>
+    <p>Study, Earn & Improve yourself 💪</p>
+  </div>
+</section>
+
+<section id="premium" style="display:none;">
+  <div class="card">
+    <h2>🔥 Premium Content</h2>
+    <p id="premiumContent">Login to access premium content</p>
+    <button onclick="subscribe()">Subscribe ₹99</button>
+  </div>
+</section>
+
+<section id="auth" style="display:none;">
+  <div class="card">
+    <h2>Login / Signup</h2>
+    <input type="email" id="email" placeholder="Email"><br>
+    <input type="password" id="password" placeholder="Password"><br>
+    <button onclick="signup()">Signup</button>
+    <button onclick="login()">Login</button>
+    <button onclick="logout()">Logout</button>
+  </div>
+</section>
+
+<script>
+  // Firebase config (YOU MUST ADD YOUR OWN)
+  var firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com"
+  };
+  firebase.initializeApp(firebaseConfig);
+
+  function showSection(id) {
+    document.getElementById('home').style.display = 'none';
+    document.getElementById('premium').style.display = 'none';
+    document.getElementById('auth').style.display = 'none';
+    document.getElementById(id).style.display = 'block';
+  }
+
+  function signup() {
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(() => alert("Signup Successful"))
+      .catch(err => alert(err.message));
+  }
+
+  function login() {
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => {
+        alert("Login Successful");
+        document.getElementById("premiumContent").innerText =
+          "🔥 Secret Earning Methods & Study Hacks Unlocked!";
+      })
+      .catch(err => alert(err.message));
+  }
+
+  function logout() {
+    firebase.auth().signOut();
+    alert("Logged out");
+  }
+
+  function subscribe() {
+    alert("Payment integration needed (Razorpay)");
+  }
+</script>
+
+</body>
+</html>
